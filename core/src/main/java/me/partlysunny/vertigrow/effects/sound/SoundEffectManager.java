@@ -2,7 +2,7 @@ package me.partlysunny.vertigrow.effects.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import me.partlysunny.vertigrow.MainGame;
+import me.partlysunny.vertigrow.Vertigrow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class SoundEffectManager {
     }
 
     public static void play(String effect, float volume) {
-        if (MainGame.settings.sound()) getSound(effect).play(volume * MainGame.settings.soundVolume());
+        if (Vertigrow.settings.sound()) getSound(effect).play(volume * Vertigrow.settings.soundVolume());
     }
 
 }

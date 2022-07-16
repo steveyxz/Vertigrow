@@ -10,23 +10,23 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import de.eskalon.commons.screen.ManagedScreen;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
-import me.partlysunny.vertigrow.MainGame;
+import me.partlysunny.vertigrow.Vertigrow;
 
 public abstract class BasicGuiScreen extends ManagedScreen {
 
     protected final Camera camera = new OrthographicCamera(GameInfo.SCREEN_WIDTH, GameInfo.SCREEN_HEIGHT);
     protected final Viewport viewport = new ExtendViewport(camera.viewportWidth, camera.viewportHeight, camera);
-    protected final MainGame game;
+    protected final Vertigrow game;
     protected final Stage stage;
 
-    public BasicGuiScreen(MainGame game) {
+    public BasicGuiScreen(Vertigrow game) {
         this.game = game;
         this.stage = new Stage(viewport, game.batch());
         preGui();
         createGui();
     }
 
-    public MainGame game() {
+    public Vertigrow game() {
         return game;
     }
 

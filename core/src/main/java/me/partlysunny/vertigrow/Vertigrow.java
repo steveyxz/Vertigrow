@@ -14,7 +14,7 @@ import me.partlysunny.vertigrow.util.constants.Screens;
 import me.partlysunny.vertigrow.util.constants.Transitions;
 import me.partlysunny.vertigrow.util.utilities.TextureManager;
 
-public class MainGame extends ManagedGame<ManagedScreen, ScreenTransition> {
+public class Vertigrow extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     public static final SettingsManager settings = new SettingsManager();
     private SpriteBatch batch;
@@ -27,7 +27,7 @@ public class MainGame extends ManagedGame<ManagedScreen, ScreenTransition> {
 
         reload();
 
-        screenManager.pushScreen("intro", "blending");
+        screenManager.pushScreen("ingame", "blending");
     }
 
     public void reload() {

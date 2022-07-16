@@ -3,7 +3,7 @@ package me.partlysunny.vertigrow.effects.sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Timer;
-import me.partlysunny.vertigrow.MainGame;
+import me.partlysunny.vertigrow.Vertigrow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,16 +41,16 @@ public class MusicManager {
     }
 
     public static void play(String track, boolean loop, float volume) {
-        if (MainGame.settings.music()) {
+        if (Vertigrow.settings.music()) {
             if (stopping) {
-                nextVolume = volume * MainGame.settings.musicVolume();
+                nextVolume = volume * Vertigrow.settings.musicVolume();
                 nextTrack = track;
                 nextLooping = loop;
             } else {
                 if (!currentlyPlaying.equals("")) {
                     getTrack(currentlyPlaying).stop();
                 }
-                getTrack(track).setVolume(volume * MainGame.settings.musicVolume());
+                getTrack(track).setVolume(volume * Vertigrow.settings.musicVolume());
                 getTrack(track).setLooping(loop);
                 getTrack(track).play();
                 currentlyPlaying = track;

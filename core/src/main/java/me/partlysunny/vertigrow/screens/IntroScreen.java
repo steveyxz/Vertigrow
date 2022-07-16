@@ -9,14 +9,14 @@ import com.kotcrab.vis.ui.widget.VisImage;
 import me.partlysunny.vertigrow.effects.sound.SoundEffectManager;
 import me.partlysunny.vertigrow.util.utilities.TextureManager;
 import me.partlysunny.vertigrow.util.utilities.Util;
-import me.partlysunny.vertigrow.MainGame;
+import me.partlysunny.vertigrow.Vertigrow;
 
 public class IntroScreen extends BasicGuiScreen {
 
     private float loadingTime = 4f;
 
 
-    public IntroScreen(MainGame game) {
+    public IntroScreen(Vertigrow game) {
         super(game);
     }
 
@@ -26,7 +26,7 @@ public class IntroScreen extends BasicGuiScreen {
             loadingTime -= delta;
             if (loadingTime < 0f) {
                 //Fade into main menu
-                game.getScreenManager().pushScreen("mainMenu", "blending");
+                game.getScreenManager().pushScreen("ingame", "blending");
             }
         }
     }
