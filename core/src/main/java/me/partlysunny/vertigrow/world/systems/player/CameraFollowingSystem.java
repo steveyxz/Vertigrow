@@ -11,6 +11,8 @@ import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerCameraFollowComponent;
 
+import static me.partlysunny.vertigrow.screens.InGameScreen.cameraVelocity;
+
 public class CameraFollowingSystem extends EntitySystem {
 
     private final Camera camera;
@@ -42,7 +44,7 @@ public class CameraFollowingSystem extends EntitySystem {
             if (Math.abs(cameraY) < 0.05f) {
                 cameraY = 0;
             }
-            //cameraVelocity.set(cameraX, cameraY);
+            cameraVelocity.set(cameraX, cameraY);
         }
     }
 }

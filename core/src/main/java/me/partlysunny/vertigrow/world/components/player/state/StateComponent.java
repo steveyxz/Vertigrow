@@ -7,15 +7,15 @@ public class StateComponent implements Component, Pool.Poolable {
 
     public float time = 0.0f;
     public boolean isLooping = true;
-    private State state;
+    private int state;
 
-    public void init(State s) {
+    public void init(int s) {
         this.state = s;
     }
 
     @Override
     public void reset() {
-        state = State.PASSIVE;
+        state = PlayerState.PASSIVE.value();
         isLooping = true;
         time = 0.0f;
     }
@@ -36,15 +36,15 @@ public class StateComponent implements Component, Pool.Poolable {
         isLooping = looping;
     }
 
-    public State state() {
+    public int state() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(int state) {
         this.state = state;
     }
 
     public int get() {
-        return state.value();
+        return state();
     }
 }

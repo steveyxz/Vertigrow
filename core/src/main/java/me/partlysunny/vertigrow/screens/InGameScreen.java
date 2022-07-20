@@ -20,9 +20,13 @@ import me.partlysunny.vertigrow.Vertigrow;
 import me.partlysunny.vertigrow.effects.particle.ParticleEffectManager;
 import me.partlysunny.vertigrow.effects.sound.MusicManager;
 import me.partlysunny.vertigrow.effects.visual.VisualEffectManager;
+import me.partlysunny.vertigrow.level.LevelManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
 import me.partlysunny.vertigrow.util.utilities.LateRemover;
 import me.partlysunny.vertigrow.world.GameWorld;
+import me.partlysunny.vertigrow.world.objects.ObjectFactory;
+import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
+import me.partlysunny.vertigrow.world.objects.type.PlayerObject;
 
 import static me.partlysunny.vertigrow.world.systems.render.TextureRenderingSystem.*;
 
@@ -40,6 +44,7 @@ public class InGameScreen extends ManagedScreen {
     private final Box2DDebugRenderer debugRenderer;
     private final Stage stage;
     private final Stage guiStage;
+    private final LevelManager levelManager;
     private float accumulator = 0;
 
     public InGameScreen(Vertigrow game) {
@@ -49,6 +54,7 @@ public class InGameScreen extends ManagedScreen {
         guiManager.init(guiStage);
         world = new GameWorld(stage);
         debugRenderer = new Box2DDebugRenderer();
+        levelManager = new LevelManager();
     }
 
     @Override
@@ -60,13 +66,15 @@ public class InGameScreen extends ManagedScreen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (game.getScreenManager().getCurrentScreen().equals(s)) {
-                    if (keycode == Input.Keys.SPACE || keycode == Input.Keys.ESCAPE) {
+                    if (keycode == Input.Keys.ESCAPE) {
                         game.getScreenManager().pushScreen("paused", null);
                     }
                 }
                 return false;
             }
         });
+
+        ObjectFactory.instance().insertObject(world.gameWorld(), 50, 200, PlayerObject.class);
 
         MusicManager.stop();
     }
@@ -116,7 +124,8 @@ public class InGameScreen extends ManagedScreen {
         guiManager.update();
         guiStage.act(delta);
         guiStage.draw();
-        //debugRenderer.render(world().physicsWorld(), camera.combined);
+        levelManager.render();
+        //debugRenderer.render(world.physicsWorld(), camera.combined);
     }
 
     private void doPhysicsStep(float deltaTime) {

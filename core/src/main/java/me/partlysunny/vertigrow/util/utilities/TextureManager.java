@@ -24,6 +24,11 @@ public class TextureManager {
 
     public static void initTextures() {
         doPngTexture("logo");
+        //Player states
+        doPngTexture("playerPassive");
+        doPngTexture("playerMoveRight");
+        doPngTexture("playerMoveLeft");
+        doPngTexture("playerJump");
     }
 
     private static void doPngTexture(String value) {

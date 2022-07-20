@@ -33,7 +33,7 @@ public class GameWorld {
     private final Map<Body, Entity> bodyCache = new HashMap<>();
 
     public GameWorld(Stage stage) {
-        this.physicsWorld = new World(new Vector2(0, -1), true);
+        this.physicsWorld = new World(new Vector2(0, -15), true);
         ContactDispatcher.init(physicsWorld);
         this.gameWorld = new PooledEngine(100, 10000, 10000, 10000000);
         //Mechanics
@@ -47,6 +47,8 @@ public class GameWorld {
         gameWorld.addSystem(new TextureRenderingSystem(stage.getBatch(), stage.getCamera()));
         gameWorld.addSystem(new ActorUpdatingSystem(stage.getBatch()));
 
+        //Add contact listener
+        ContactDispatcher.registerListener(new CollisionHandler());
     }
 
     public Entity getEntityWithRigidBody(Body b) {

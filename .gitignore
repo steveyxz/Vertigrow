@@ -145,3 +145,6 @@ Thumbs.db
 *#*#
 /gradle/wrapper/gradle-wrapper.jar
 /gradle/wrapper/gradle-wrapper.properties
+/vertigrow.tiled-project
+/vertigrow.tiled-session
+/Environment.tsx

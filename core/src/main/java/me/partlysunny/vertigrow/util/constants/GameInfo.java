@@ -13,6 +13,6 @@ public class GameInfo {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 2;
     public static final float MAX_VELOCITY = 15f;
-    public static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+    public static final Color BACKGROUND_COLOR = Color.SKY;
     public static final int PLAYER_MAX_HEALTH = 100;
 }

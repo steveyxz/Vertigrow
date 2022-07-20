@@ -1,7 +1,15 @@
 package me.partlysunny.vertigrow.util.utilities;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
@@ -142,5 +151,38 @@ public class Util {
         float yDiff = a.position.y - b.position.y;
 
         return (float) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    }
+
+    public static Animation<TextureRegion> getAnimations(float frameDuration, int width, int height, int numberOfTextures, String textureId, Animation.PlayMode mode) {
+        Array<TextureRegion> frames = new Array<>();
+        Texture t = TextureManager.getTexture(textureId);
+        for (int i = 0; i < numberOfTextures; i++) {
+            frames.add(new TextureRegion(t, i * width, 0, width, height));
+        }
+        Animation<TextureRegion> animation = new Animation<>(frameDuration, frames);
+        animation.setPlayMode(mode);
+        return animation;
+    }
+
+    public static void makeTilesAnimated(String tileSet, String layerName, int tileId, TiledMap map, float interval, int... animationIds) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(layerName);
+        TiledMapTileSet tileset = map.getTileSets().getTileSet(tileSet);
+
+        Array<StaticTiledMapTile> at = new Array<>();
+        for (int i : animationIds) {
+            if (tileset.getTile(i + 1) != null) at.add((StaticTiledMapTile) tileset.getTile(i + 1));
+        }
+
+        System.out.println(at);
+
+        for (int i = 0; i < layer.getWidth(); i++) {
+            for (int j = 0; j < layer.getHeight(); j++) {
+                TiledMapTileLayer.Cell cell = layer.getCell(i, j);
+                if (cell == null) continue;
+                if (cell.getTile().getId() == tileId + 1) {
+                    cell.setTile(new AnimatedTiledMapTile(interval, at));
+                }
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 public class TextureRenderingSystem extends SortedIteratingSystem {
 
-    public static final float PPM = 8f;
+    public static final float PPM = 4f;
 
     public static final float FRUSTUM_WIDTH = GameInfo.SCREEN_WIDTH / PPM;
     public static final float FRUSTUM_HEIGHT = GameInfo.SCREEN_HEIGHT / PPM;
