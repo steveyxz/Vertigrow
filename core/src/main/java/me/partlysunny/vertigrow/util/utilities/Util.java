@@ -1,5 +1,6 @@
 package me.partlysunny.vertigrow.util.utilities;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,10 +13,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,7 +22,10 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.widget.Tooltip;
+import me.partlysunny.vertigrow.screens.InGameScreen;
+import me.partlysunny.vertigrow.util.classes.Pair;
 import me.partlysunny.vertigrow.util.constants.Mappers;
+import me.partlysunny.vertigrow.world.GameWorld;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
 
@@ -173,8 +174,6 @@ public class Util {
             if (tileset.getTile(i + 1) != null) at.add((StaticTiledMapTile) tileset.getTile(i + 1));
         }
 
-        System.out.println(at);
-
         for (int i = 0; i < layer.getWidth(); i++) {
             for (int j = 0; j < layer.getHeight(); j++) {
                 TiledMapTileLayer.Cell cell = layer.getCell(i, j);
@@ -184,5 +183,58 @@ public class Util {
                 }
             }
         }
+    }
+
+    public static Pair<Entity, Entity> handlePlayerCollision(Contact contact) {
+        Pair<Entity, Entity> conversion = convertContact(contact, Mappers.controlMapper, false);
+        if (conversion == null) {
+            return null;
+        }
+        Entity other = conversion.a();
+        if (!Mappers.checkpointMapper.has(other) && !Mappers.killPlayerMapper.has(other)) {
+            return null;
+        }
+        return conversion;
+    }
+
+    /**
+     * Converts a contact into two entities, with one focused one
+     *
+     * @param contact           The contact
+     * @param focusedMapper     The mapper that this is focused (the check for if this is suitable), usually the most prominent component
+     * @param deleteIfIdentical If you should delete the entities if they both have the focused component
+     * @return The converted contact
+     */
+    private static Pair<Entity, Entity> convertContact(Contact contact, ComponentMapper focusedMapper, boolean deleteIfIdentical) {
+        GameWorld world = InGameScreen.world;
+        Entity a = world.getEntityWithRigidBody(contact.getFixtureA().getBody());
+        Entity b = world.getEntityWithRigidBody(contact.getFixtureB().getBody());
+        if (a == null || b == null) {
+            return null;
+        }
+        if (a.isScheduledForRemoval() || a.isRemoving() || b.isScheduledForRemoval() || b.isRemoving()) {
+            return null;
+        }
+        Entity focus = null;
+        Entity other = null;
+        if (focusedMapper.has(b)) {
+            other = a;
+            focus = b;
+        }
+        if (focusedMapper.has(a)) {
+            if (focus != null) {
+                if (deleteIfIdentical) {
+                    LateRemover.tagToRemove(a);
+                    LateRemover.tagToRemove(b);
+                }
+                return null;
+            }
+            other = b;
+            focus = a;
+        }
+        if (focus == null) {
+            return null;
+        }
+        return new Pair<>(other, focus);
     }
 }

@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static me.partlysunny.vertigrow.util.constants.Mappers.bodyMapper;
+
 public class GameWorld {
 
     private final PooledEngine gameWorld;
@@ -60,7 +62,7 @@ public class GameWorld {
             }
         }
         for (Entity entity : gameWorld.getEntitiesFor(Family.all(RigidBodyComponent.class).get()).toArray(Entity.class)) {
-            RigidBodyComponent rigidBodyComponent = Mappers.bodyMapper.get(entity);
+            RigidBodyComponent rigidBodyComponent = bodyMapper.get(entity);
             if (rigidBodyComponent.rigidBody().equals(b)) {
                 gameWorld.addEntityListener(new EntityListener() {
                     @Override

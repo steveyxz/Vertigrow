@@ -33,4 +33,12 @@ public class Pair<A, B> {
         }
         return ((Pair<?, ?>) obj).a.equals(a) && ((Pair<?, ?>) obj).b.equals(b);
     }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "a=" + a +
+                ", b=" + b +
+                '}';
+    }
 }

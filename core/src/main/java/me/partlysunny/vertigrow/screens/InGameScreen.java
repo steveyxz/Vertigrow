@@ -21,7 +21,9 @@ import me.partlysunny.vertigrow.effects.particle.ParticleEffectManager;
 import me.partlysunny.vertigrow.effects.sound.MusicManager;
 import me.partlysunny.vertigrow.effects.visual.VisualEffectManager;
 import me.partlysunny.vertigrow.level.LevelManager;
+import me.partlysunny.vertigrow.player.PlayerManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
+import me.partlysunny.vertigrow.util.utilities.LateMover;
 import me.partlysunny.vertigrow.util.utilities.LateRemover;
 import me.partlysunny.vertigrow.world.GameWorld;
 import me.partlysunny.vertigrow.world.objects.ObjectFactory;
@@ -45,6 +47,7 @@ public class InGameScreen extends ManagedScreen {
     private final Stage stage;
     private final Stage guiStage;
     private final LevelManager levelManager;
+    public static PlayerManager playerManager;
     private float accumulator = 0;
 
     public InGameScreen(Vertigrow game) {
@@ -55,6 +58,7 @@ public class InGameScreen extends ManagedScreen {
         world = new GameWorld(stage);
         debugRenderer = new Box2DDebugRenderer();
         levelManager = new LevelManager();
+        playerManager = new PlayerManager(ObjectFactory.instance().insertObject(world.gameWorld(), 50, 200, PlayerObject.class));
     }
 
     @Override
@@ -74,7 +78,6 @@ public class InGameScreen extends ManagedScreen {
             }
         });
 
-        ObjectFactory.instance().insertObject(world.gameWorld(), 50, 200, PlayerObject.class);
 
         MusicManager.stop();
     }
@@ -110,8 +113,9 @@ public class InGameScreen extends ManagedScreen {
         world.gameWorld().update(delta);
 
 
-        //Process late killers / removers (so that they don't collide with the physics step)
+        //Process late removers / movers (so that they don't collide with the physics step)
         LateRemover.process(world);
+        LateMover.process();
 
         //Rendering
         ParticleEffectManager.render(game.batch(), delta);

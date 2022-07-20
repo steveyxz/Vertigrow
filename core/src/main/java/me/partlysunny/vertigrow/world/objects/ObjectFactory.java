@@ -1,5 +1,6 @@
 package me.partlysunny.vertigrow.world.objects;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -18,21 +19,21 @@ public final class ObjectFactory {
 
     private final Map<Class<? extends GameObject>, GameObject> instances = new HashMap<>();
 
-    public <T extends GameObject> void insertObject(PooledEngine engine, float initialX, float initialY, Class<T> type) {
+    public <T extends GameObject> Entity insertObject(PooledEngine engine, float initialX, float initialY, Class<T> type) {
         if (instances.containsKey(type)) {
             instances.get(type).insert(engine, initialX, initialY);
-            return;
+            return null;
         }
-        GameObject obj = null;
+        GameObject obj;
         try {
             obj = type.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Gdx.app.setLogLevel(Application.LOG_ERROR);
             Gdx.app.log("Vertigrow", "Internal error occurred, contact developers! : " + e.getMessage());
-            return;
+            return null;
         }
         instances.put(type, obj);
-        obj.insert(engine, initialX, initialY);
+        return obj.insert(engine, initialX, initialY);
     }
 
 }

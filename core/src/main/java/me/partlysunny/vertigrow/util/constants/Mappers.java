@@ -1,9 +1,7 @@
 package me.partlysunny.vertigrow.util.constants;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import me.partlysunny.vertigrow.world.components.collision.DeletionListenerComponent;
-import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
-import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
+import me.partlysunny.vertigrow.world.components.collision.*;
 import me.partlysunny.vertigrow.world.components.player.PlayerCameraFollowComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerControlComponent;
 import me.partlysunny.vertigrow.world.components.player.state.StateComponent;
@@ -24,4 +22,6 @@ public final class Mappers {
     public static final ComponentMapper<DeletionListenerComponent> deleteListenerMapper = ComponentMapper.getFor(DeletionListenerComponent.class);
     public static final ComponentMapper<PlayerControlComponent> controlMapper = ComponentMapper.getFor(PlayerControlComponent.class);
     public static final ComponentMapper<StateComponent> stateMapper = ComponentMapper.getFor(StateComponent.class);
+    public static final ComponentMapper<KillPlayerOnTouchComponent> killPlayerMapper = ComponentMapper.getFor(KillPlayerOnTouchComponent.class);
+    public static final ComponentMapper<CheckpointComponent> checkpointMapper = ComponentMapper.getFor(CheckpointComponent.class);
 }
