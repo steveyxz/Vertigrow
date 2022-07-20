@@ -57,7 +57,7 @@ public class PlayerObject implements GameObject {
         shape.setAsBox(radius, radius);
         FixtureDef def = new FixtureDef();
         def.shape = shape;
-        def.friction = 0.4f;
+        def.friction = 0.1f;
         body.initBody(InGameScreen.world.physicsWorld(), initialX, initialY, 0, def, BodyDef.BodyType.DynamicBody, radius);
         player.add(body);
 
