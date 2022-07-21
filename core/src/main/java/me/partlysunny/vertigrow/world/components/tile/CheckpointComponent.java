@@ -1,4 +1,4 @@
-package me.partlysunny.vertigrow.world.components.collision;
+package me.partlysunny.vertigrow.world.components.tile;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;

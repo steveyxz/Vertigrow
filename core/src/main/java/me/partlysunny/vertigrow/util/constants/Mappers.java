@@ -9,6 +9,9 @@ import me.partlysunny.vertigrow.world.components.render.ActorComponent;
 import me.partlysunny.vertigrow.world.components.render.AnimationComponent;
 import me.partlysunny.vertigrow.world.components.render.TextureComponent;
 import me.partlysunny.vertigrow.world.components.render.TintComponent;
+import me.partlysunny.vertigrow.world.components.tile.BouncyComponent;
+import me.partlysunny.vertigrow.world.components.tile.CheckpointComponent;
+import me.partlysunny.vertigrow.world.components.tile.KillPlayerOnTouchComponent;
 
 public final class Mappers {
 
@@ -24,4 +27,5 @@ public final class Mappers {
     public static final ComponentMapper<StateComponent> stateMapper = ComponentMapper.getFor(StateComponent.class);
     public static final ComponentMapper<KillPlayerOnTouchComponent> killPlayerMapper = ComponentMapper.getFor(KillPlayerOnTouchComponent.class);
     public static final ComponentMapper<CheckpointComponent> checkpointMapper = ComponentMapper.getFor(CheckpointComponent.class);
+    public static final ComponentMapper<BouncyComponent> bouncyMapper = ComponentMapper.getFor(BouncyComponent.class);
 }
