@@ -6,7 +6,8 @@ public enum PlayerState {
     MOVING_LEFT(2, true),
     FALLING(3, false),
     RISING(4, false),
-    PASSIVE(5, true);
+    DYING(5, true),
+    PASSIVE(6, true);
 
     private final int value;
     private final boolean grounded;

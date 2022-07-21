@@ -29,6 +29,7 @@ public class TextureManager {
         doPngTexture("playerMoveRight");
         doPngTexture("playerMoveLeft");
         doPngTexture("playerJump");
+        doPngTexture("playerDeath");
     }
 
     private static void doPngTexture(String value) {

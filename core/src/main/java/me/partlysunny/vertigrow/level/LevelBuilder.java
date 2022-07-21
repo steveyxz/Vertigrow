@@ -40,9 +40,19 @@ public class LevelBuilder {
             String name = mapObject.getName();
             boolean killPlayer = false;
             boolean checkpoint = false;
+            boolean bouncy = false;
             if (name != null) {
                 killPlayer = name.equals("KillPlayer");
                 checkpoint = name.equals("Checkpoint");
+                bouncy = name.equals("Bouncy");
+            }
+            int checkpointNumber = -1;
+            float bouncyStrength = -1f;
+            if (checkpoint) {
+                checkpointNumber = mapObject.getProperties().get("CheckpointNumber", Integer.class);
+            }
+            if (bouncy) {
+                bouncyStrength = mapObject.getProperties().get("Strength", Float.class);
             }
             if (mapObject instanceof RectangleMapObject) {
                 RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
@@ -51,7 +61,7 @@ public class LevelBuilder {
                 polygonShape.setAsBox(rectangle.getWidth() / 2f, rectangle.getHeight() / 2f);
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
-                TileMapCollisionFactory.create(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f, def, checkpoint, killPlayer);
+                TileMapCollisionFactory.create(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f, def, checkpoint, killPlayer, checkpointNumber);
             } else if (mapObject instanceof EllipseMapObject) {
                 EllipseMapObject circleMapObject = (EllipseMapObject) mapObject;
                 Ellipse ellipse = circleMapObject.getEllipse();
@@ -59,7 +69,7 @@ public class LevelBuilder {
                 circleShape.setRadius(ellipse.width / 2f);
                 FixtureDef def = new FixtureDef();
                 def.shape = circleShape;
-                TileMapCollisionFactory.create(ellipse.x, ellipse.y, def, checkpoint, killPlayer);
+                TileMapCollisionFactory.create(ellipse.x, ellipse.y, def, checkpoint, killPlayer, checkpointNumber);
             } else if (mapObject instanceof PolygonMapObject) {
                 PolygonMapObject polygonMapObject = (PolygonMapObject) mapObject;
                 Polygon polygon = polygonMapObject.getPolygon();
@@ -67,7 +77,7 @@ public class LevelBuilder {
                 polygonShape.set(polygon.getVertices());
                 FixtureDef def = new FixtureDef();
                 def.shape = polygonShape;
-                TileMapCollisionFactory.create(polygon.getX(), polygon.getY(), def, checkpoint, killPlayer);
+                TileMapCollisionFactory.create(polygon.getX(), polygon.getY(), def, checkpoint, killPlayer, checkpointNumber);
             }
         }
     }

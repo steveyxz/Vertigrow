@@ -39,7 +39,8 @@ public class PlayerObject implements GameObject {
         animation.animations().put(2, Util.getAnimations(0.1f, 16, 16, 5, "playerMoveLeft", Animation.PlayMode.LOOP_PINGPONG));
         animation.animations().put(3, Util.getAnimations(1, 16, 16, 1, "playerJump", Animation.PlayMode.LOOP_PINGPONG));
         animation.animations().put(4, Util.getAnimations(1, 16, 16, 1, "playerJump", Animation.PlayMode.LOOP_PINGPONG));
-        animation.animations().put(5, Util.getAnimations(0.5f, 16, 16, 2, "playerPassive", Animation.PlayMode.LOOP));
+        animation.animations().put(5, Util.getAnimations(0.4f, 16, 16, 5, "playerDeath", Animation.PlayMode.NORMAL));
+        animation.animations().put(6, Util.getAnimations(0.5f, 16, 16, 2, "playerPassive", Animation.PlayMode.LOOP));
         player.add(animation);
 
         PlayerCameraFollowComponent cameraFollowComponent = e.createComponent(PlayerCameraFollowComponent.class);

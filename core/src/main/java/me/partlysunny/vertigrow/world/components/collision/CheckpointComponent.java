@@ -6,18 +6,25 @@ import com.badlogic.gdx.utils.Pool;
 
 public class CheckpointComponent implements Component, Pool.Poolable {
 
-    private Vector2 positionToTeleport;
+    private Vector2 positionToTeleport = null;
+    private int checkpointNumber = -1;
 
     public Vector2 positionToTeleport() {
         return positionToTeleport;
     }
 
-    public void init(Vector2 positionToTeleport) {
+    public int checkpointNumber() {
+        return checkpointNumber;
+    }
+
+    public void init(Vector2 positionToTeleport, int checkpointNumber) {
         this.positionToTeleport = positionToTeleport;
+        this.checkpointNumber = checkpointNumber;
     }
 
     @Override
     public void reset() {
         positionToTeleport = null;
+        checkpointNumber = -1;
     }
 }

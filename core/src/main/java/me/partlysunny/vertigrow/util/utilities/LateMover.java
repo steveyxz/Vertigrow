@@ -27,6 +27,7 @@ public class LateMover {
         tempRemove.addAll(toRemove.keySet());
         for (Body e : tempRemove) {
             e.setTransform(toRemove.get(e), 0);
+            e.setAwake(true);
         }
         toRemove.clear();
     }

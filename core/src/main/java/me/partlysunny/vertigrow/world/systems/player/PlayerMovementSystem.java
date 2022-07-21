@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import me.partlysunny.vertigrow.effects.sound.SoundEffectManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
@@ -34,9 +35,13 @@ public class PlayerMovementSystem extends IteratingSystem {
         if (map == null) {
             map = new PlayerKeyMap();
         }
+
+        if (state.state() == PlayerState.DYING.value()) {
+            return;
+        }
         //Movement speed
         float playerSpeed = 3;
-        float jumpSpeed = 35;
+        float jumpSpeed = 40;
         Body body = velocity.rigidBody();
         float x = body.getPosition().x;
         float y = body.getPosition().y;
@@ -74,14 +79,15 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         //If no velocity return to passive state
-        if (body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0) {
+        if (body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0 && state.state() != PlayerState.RISING.value()) {
             state.setState(PlayerState.PASSIVE.value());
         }
 
         //Key Presses
         if (input.isKeyPressed(map.getKey(PlayerAction.JUMP)) && value.grounded()) {
-            body.applyLinearImpulse(0, jumpSpeed, x, y, true);
+            body.setLinearVelocity(body.getLinearVelocity().x, jumpSpeed);
             state.setState(PlayerState.RISING.value());
+            SoundEffectManager.getSound("jump").play(1);
         }
         if (input.isKeyPressed(map.getKey(PlayerAction.LEFT)) && linearVelocity.x >= -GameInfo.MAX_VELOCITY) {
             body.applyLinearImpulse(-playerSpeed, 0, x, y, true);

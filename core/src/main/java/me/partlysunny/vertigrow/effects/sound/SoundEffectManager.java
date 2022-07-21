@@ -13,6 +13,9 @@ public class SoundEffectManager {
 
     static {
         loadWavRegular("startup");
+        loadWavRegular("checkpoint");
+        loadWavRegular("die");
+        loadWavRegular("jump");
     }
 
     public static void registerSound(String id, Sound sound) {

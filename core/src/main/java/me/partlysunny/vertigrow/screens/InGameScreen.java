@@ -46,7 +46,7 @@ public class InGameScreen extends ManagedScreen {
     private final Box2DDebugRenderer debugRenderer;
     private final Stage stage;
     private final Stage guiStage;
-    private final LevelManager levelManager;
+    public static LevelManager levelManager;
     public static PlayerManager playerManager;
     private float accumulator = 0;
 

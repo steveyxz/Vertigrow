@@ -32,6 +32,8 @@ public class ParticleEffectManager {
     }
 
     public static void init() {
+        registerEffect("checkpointReached", load("checkpointReached.p"));
+        registerEffect("death", load("death.p"));
     }
 
     /**

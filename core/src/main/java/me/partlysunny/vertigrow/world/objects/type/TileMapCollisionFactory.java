@@ -12,7 +12,7 @@ import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 
 public class TileMapCollisionFactory {
 
-    public static Entity create(float initialX, float initialY, FixtureDef fixture, boolean checkpoint, boolean killPlayer) {
+    public static Entity create(float initialX, float initialY, FixtureDef fixture, boolean checkpoint, boolean killPlayer, int checkpointNumber) {
         PooledEngine e = InGameScreen.world.gameWorld();
 
         Entity tile = e.createEntity();
@@ -23,7 +23,7 @@ public class TileMapCollisionFactory {
 
         if (checkpoint) {
             CheckpointComponent c = e.createComponent(CheckpointComponent.class);
-            c.init(new Vector2(initialX, initialY + 16));
+            c.init(new Vector2(initialX, initialY + 16), checkpointNumber);
             tile.add(c);
         }
 
