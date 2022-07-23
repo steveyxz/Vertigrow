@@ -2,6 +2,7 @@ package me.partlysunny.vertigrow.level;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -16,10 +17,12 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import me.partlysunny.vertigrow.screens.InGameScreen;
+import me.partlysunny.vertigrow.util.utilities.TextureManager;
 import me.partlysunny.vertigrow.util.utilities.Util;
-import me.partlysunny.vertigrow.world.components.tile.BouncyComponent;
-import me.partlysunny.vertigrow.world.components.tile.CheckpointComponent;
-import me.partlysunny.vertigrow.world.components.tile.KillPlayerOnTouchComponent;
+import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
+import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
+import me.partlysunny.vertigrow.world.components.render.TextureComponent;
+import me.partlysunny.vertigrow.world.components.tile.*;
 import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
 
 public class LevelBuilder {
@@ -39,23 +42,6 @@ public class LevelBuilder {
         //Go through collisions, generate collision maps
         for (int i = 0; i < collisions.getCount(); i++) {
             MapObject mapObject = collisions.get(i);
-            String name = mapObject.getName();
-            boolean killPlayer = false;
-            boolean checkpoint = false;
-            boolean bouncy = false;
-            if (name != null) {
-                killPlayer = name.equals("KillPlayer");
-                checkpoint = name.equals("Checkpoint");
-                bouncy = name.equals("Bouncy");
-            }
-            int checkpointNumber = -1;
-            float bouncyStrength = -1f;
-            if (checkpoint) {
-                checkpointNumber = mapObject.getProperties().get("CheckpointNumber", Integer.class);
-            }
-            if (bouncy) {
-                bouncyStrength = mapObject.getProperties().get("Strength", Float.class);
-            }
             Entity e = null;
             float initialX = 0;
             float initialY = 0;
@@ -91,22 +77,46 @@ public class LevelBuilder {
                 e = TileMapCollisionFactory.create(initialX, initialY, def);
             }
             PooledEngine engine = InGameScreen.world.gameWorld();
-            if (e != null) {
-                if (checkpoint) {
+            String name = mapObject.getName();
+            if (e != null && name != null) {
+                if (name.equals("Checkpoint")) {
+                    int checkpointNumber = mapObject.getProperties().get("CheckpointNumber", Integer.class);
                     CheckpointComponent checkpointComponent = engine.createComponent(CheckpointComponent.class);
                     checkpointComponent.init(new Vector2(initialX, initialY + 16), checkpointNumber);
                     e.add(checkpointComponent);
                 }
 
-                if (killPlayer) {
+                if (name.equals("KillPlayer")) {
                     KillPlayerOnTouchComponent killPlayerComponent = engine.createComponent(KillPlayerOnTouchComponent.class);
                     e.add(killPlayerComponent);
                 }
 
-                if (bouncy) {
+                if (name.equals("Bouncy")) {
+                    float bouncyStrength = mapObject.getProperties().get("Strength", Float.class);
                     BouncyComponent bouncyComponent = engine.createComponent(BouncyComponent.class);
                     bouncyComponent.init(bouncyStrength);
                     e.add(bouncyComponent);
+                }
+
+                if (name.equals("Moving")) {
+                    float delay = mapObject.getProperties().get("Delay", Float.class);
+                    int moveDistance = mapObject.getProperties().get("MoveDistance", Integer.class);
+                    MoveType movementType = MoveType.fromString(mapObject.getProperties().get("Movement", String.class));
+                    float speed = mapObject.getProperties().get("Speed", Float.class);
+                    String textureId = mapObject.getProperties().get("Texture", String.class);
+
+                    TextureComponent texture = engine.createComponent(TextureComponent.class);
+                    TextureRegion region = new TextureRegion(TextureManager.getTexture(textureId));
+                    texture.init(region);
+                    e.add(texture);
+
+                    TransformComponent transform = engine.createComponent(TransformComponent.class);
+                    transform.init(region.getRegionWidth(), region.getRegionHeight());
+                    e.add(transform);
+
+                    MovementComponent movement = engine.createComponent(MovementComponent.class);
+                    movement.init(delay, moveDistance, e.getComponent(RigidBodyComponent.class).rigidBody().getPosition(), speed, textureId, movementType, e);
+                    e.add(movement);
                 }
             }
             engine.addEntity(e);

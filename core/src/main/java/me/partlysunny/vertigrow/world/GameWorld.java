@@ -13,6 +13,7 @@ import me.partlysunny.vertigrow.util.classes.ContactDispatcher;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
+import me.partlysunny.vertigrow.world.systems.physics.BodyMovementSystem;
 import me.partlysunny.vertigrow.world.systems.physics.PhysicsSystem;
 import me.partlysunny.vertigrow.world.systems.player.CameraFollowingSystem;
 import me.partlysunny.vertigrow.world.systems.player.PlayerMovementSystem;
@@ -35,12 +36,13 @@ public class GameWorld {
     private final Map<Body, Entity> bodyCache = new HashMap<>();
 
     public GameWorld(Stage stage) {
-        this.physicsWorld = new World(new Vector2(0, -15), true);
+        this.physicsWorld = new World(new Vector2(0, -16), true);
         ContactDispatcher.init(physicsWorld);
         this.gameWorld = new PooledEngine(100, 10000, 10000, 10000000);
         //Mechanics
         //Physics
         gameWorld.addSystem(new PhysicsSystem(physicsWorld));
+        gameWorld.addSystem(new BodyMovementSystem());
         //Player systems
         gameWorld.addSystem(new CameraFollowingSystem(stage.getCamera()));
         gameWorld.addSystem(new PlayerMovementSystem());

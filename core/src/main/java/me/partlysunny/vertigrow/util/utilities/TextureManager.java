@@ -30,6 +30,8 @@ public class TextureManager {
         doPngTexture("playerMoveLeft");
         doPngTexture("playerJump");
         doPngTexture("playerDeath");
+        //Moving platforms
+        doPngTexture("horizontal");
     }
 
     private static void doPngTexture(String value) {

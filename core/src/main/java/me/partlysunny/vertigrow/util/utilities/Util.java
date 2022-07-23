@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.widget.Tooltip;
+import de.damios.guacamole.gdx.pool.Vector2Pool;
 import me.partlysunny.vertigrow.screens.InGameScreen;
 import me.partlysunny.vertigrow.util.classes.Pair;
 import me.partlysunny.vertigrow.util.constants.Mappers;
@@ -36,6 +37,7 @@ public class Util {
     public static final ThreadLocalRandom RAND = ThreadLocalRandom.current();
     private static final GlyphLayout layout = new GlyphLayout();
     private static final Vector2 vec = new Vector2();
+    public static final Vector2Pool GLOBAL_POOL = new Vector2Pool();
 
     public static int getRandomBetween(int a, int b) {
         return RAND.nextInt(a, b + 1);

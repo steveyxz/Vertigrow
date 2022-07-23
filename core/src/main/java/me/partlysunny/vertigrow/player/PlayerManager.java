@@ -12,7 +12,7 @@ import me.partlysunny.vertigrow.world.systems.render.TextureRenderingSystem;
 
 public class PlayerManager {
 
-    private Vector2 spawnPoint = new Vector2(50, 200);
+    private Vector2 spawnPoint = new Vector2(50, 300);
     private int deathCount = 0;
     private final Entity player;
     private int currentCheckpointNumber = -1;

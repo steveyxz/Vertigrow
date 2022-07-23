@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import de.damios.guacamole.gdx.pool.Vector2Pool;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.GameWorld;
 
@@ -17,17 +18,24 @@ public class LateMover {
 
     private static final Map<Body, Vector2> toRemove = new HashMap<>();
     private static final List<Body> tempRemove = new ArrayList<>();
+    private static final Vector2Pool pool = new Vector2Pool();
 
     public static void tagToMove(Body e, Vector2 whereTo) {
-        toRemove.put(e, whereTo);
+        toRemove.put(e, pool.obtain().set(whereTo));
+    }
+
+    public static void tagToMove(Body e, float x, float y) {
+        toRemove.put(e, pool.obtain().set(x, y));
     }
 
     public static void process() {
         tempRemove.clear();
         tempRemove.addAll(toRemove.keySet());
         for (Body e : tempRemove) {
-            e.setTransform(toRemove.get(e), 0);
+            Vector2 newPos = toRemove.get(e);
+            e.setTransform(newPos, 0);
             e.setAwake(true);
+            pool.free(newPos);
         }
         toRemove.clear();
     }

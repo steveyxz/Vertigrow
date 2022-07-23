@@ -21,8 +21,7 @@ public final class ObjectFactory {
 
     public <T extends GameObject> Entity insertObject(PooledEngine engine, float initialX, float initialY, Class<T> type) {
         if (instances.containsKey(type)) {
-            instances.get(type).insert(engine, initialX, initialY);
-            return null;
+            return instances.get(type).insert(engine, initialX, initialY);
         }
         GameObject obj;
         try {

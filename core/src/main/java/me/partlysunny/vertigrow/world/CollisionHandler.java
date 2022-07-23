@@ -13,6 +13,7 @@ import me.partlysunny.vertigrow.util.classes.Pair;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
+import me.partlysunny.vertigrow.world.components.player.state.PlayerState;
 import me.partlysunny.vertigrow.world.systems.render.TextureRenderingSystem;
 
 public class CollisionHandler implements ContactListener {
@@ -43,6 +44,7 @@ public class CollisionHandler implements ContactListener {
 
             if (Mappers.bouncyMapper.has(other)) {
                 float strength = Mappers.bouncyMapper.get(other).strength();
+                Mappers.stateMapper.get(player).setState(PlayerState.PASSIVE.value());
                 playerBody.rigidBody().setLinearVelocity(playerBody.rigidBody().getLinearVelocity().x, -playerBody.rigidBody().getLinearVelocity().y * strength);
             }
         }

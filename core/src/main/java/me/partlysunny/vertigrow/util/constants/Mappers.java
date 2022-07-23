@@ -1,6 +1,7 @@
 package me.partlysunny.vertigrow.util.constants;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import me.partlysunny.vertigrow.util.utilities.TextureRegionDrawableCache;
 import me.partlysunny.vertigrow.world.components.collision.*;
 import me.partlysunny.vertigrow.world.components.player.PlayerCameraFollowComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerControlComponent;
@@ -12,6 +13,7 @@ import me.partlysunny.vertigrow.world.components.render.TintComponent;
 import me.partlysunny.vertigrow.world.components.tile.BouncyComponent;
 import me.partlysunny.vertigrow.world.components.tile.CheckpointComponent;
 import me.partlysunny.vertigrow.world.components.tile.KillPlayerOnTouchComponent;
+import me.partlysunny.vertigrow.world.components.tile.MovementComponent;
 
 public final class Mappers {
 
@@ -28,4 +30,5 @@ public final class Mappers {
     public static final ComponentMapper<KillPlayerOnTouchComponent> killPlayerMapper = ComponentMapper.getFor(KillPlayerOnTouchComponent.class);
     public static final ComponentMapper<CheckpointComponent> checkpointMapper = ComponentMapper.getFor(CheckpointComponent.class);
     public static final ComponentMapper<BouncyComponent> bouncyMapper = ComponentMapper.getFor(BouncyComponent.class);
+    public static final ComponentMapper<MovementComponent> movementMapper = ComponentMapper.getFor(MovementComponent.class);
 }
