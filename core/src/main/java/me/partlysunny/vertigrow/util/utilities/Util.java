@@ -35,9 +35,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Util {
 
     public static final ThreadLocalRandom RAND = ThreadLocalRandom.current();
+    public static final Vector2Pool GLOBAL_POOL = new Vector2Pool();
     private static final GlyphLayout layout = new GlyphLayout();
     private static final Vector2 vec = new Vector2();
-    public static final Vector2Pool GLOBAL_POOL = new Vector2Pool();
 
     public static int getRandomBetween(int a, int b) {
         return RAND.nextInt(a, b + 1);

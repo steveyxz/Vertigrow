@@ -1,13 +1,8 @@
 package me.partlysunny.vertigrow.util.utilities;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import de.damios.guacamole.gdx.pool.Vector2Pool;
-import me.partlysunny.vertigrow.util.constants.Mappers;
-import me.partlysunny.vertigrow.world.GameWorld;
 
 import java.util.ArrayList;
 import java.util.HashMap;

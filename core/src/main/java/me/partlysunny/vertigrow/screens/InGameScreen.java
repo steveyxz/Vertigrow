@@ -23,12 +23,10 @@ import me.partlysunny.vertigrow.effects.visual.VisualEffectManager;
 import me.partlysunny.vertigrow.level.LevelManager;
 import me.partlysunny.vertigrow.player.PlayerManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
-import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.util.utilities.LateMover;
 import me.partlysunny.vertigrow.util.utilities.LateRemover;
 import me.partlysunny.vertigrow.world.GameWorld;
 import me.partlysunny.vertigrow.world.objects.ObjectFactory;
-import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
 import me.partlysunny.vertigrow.world.objects.type.PlayerObject;
 
 import static me.partlysunny.vertigrow.world.systems.render.TextureRenderingSystem.*;
@@ -42,13 +40,12 @@ public class InGameScreen extends ManagedScreen {
     public static final Viewport guiViewport = new ExtendViewport(guiCamera.viewportWidth, guiCamera.viewportHeight, guiCamera);
     public static final ScreenGuiManager guiManager = new ScreenGuiManager();
     public static GameWorld world;
-
+    public static LevelManager levelManager;
+    public static PlayerManager playerManager;
     private final Vertigrow game;
     private final Box2DDebugRenderer debugRenderer;
     private final Stage stage;
     private final Stage guiStage;
-    public static LevelManager levelManager;
-    public static PlayerManager playerManager;
     private float accumulator = 0;
 
     public InGameScreen(Vertigrow game) {

@@ -57,6 +57,7 @@ public class ParticleEffectManager {
 
     /**
      * Renders particle effects, ASSUMING BATCH IS STARTED!!!
+     *
      * @param batch the batch
      * @param delta delta time
      */

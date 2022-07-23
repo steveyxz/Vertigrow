@@ -12,12 +12,11 @@ import java.util.Map;
 public final class ObjectFactory {
 
     private static final ObjectFactory INSTANCE = new ObjectFactory();
+    private final Map<Class<? extends GameObject>, GameObject> instances = new HashMap<>();
 
     public static ObjectFactory instance() {
         return INSTANCE;
     }
-
-    private final Map<Class<? extends GameObject>, GameObject> instances = new HashMap<>();
 
     public <T extends GameObject> Entity insertObject(PooledEngine engine, float initialX, float initialY, Class<T> type) {
         if (instances.containsKey(type)) {
@@ -26,7 +25,8 @@ public final class ObjectFactory {
         GameObject obj;
         try {
             obj = type.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             Gdx.app.setLogLevel(Application.LOG_ERROR);
             Gdx.app.log("Vertigrow", "Internal error occurred, contact developers! : " + e.getMessage());
             return null;

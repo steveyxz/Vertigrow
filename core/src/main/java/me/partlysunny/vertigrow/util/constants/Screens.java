@@ -1,8 +1,8 @@
 package me.partlysunny.vertigrow.util.constants;
 
+import me.partlysunny.vertigrow.Vertigrow;
 import me.partlysunny.vertigrow.screens.InGameScreen;
 import me.partlysunny.vertigrow.screens.IntroScreen;
-import me.partlysunny.vertigrow.Vertigrow;
 
 public final class Screens {
 

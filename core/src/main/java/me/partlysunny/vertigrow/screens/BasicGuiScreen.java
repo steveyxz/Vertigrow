@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import de.eskalon.commons.screen.ManagedScreen;
-import me.partlysunny.vertigrow.util.constants.GameInfo;
 import me.partlysunny.vertigrow.Vertigrow;
+import me.partlysunny.vertigrow.util.constants.GameInfo;
 
 public abstract class BasicGuiScreen extends ManagedScreen {
 

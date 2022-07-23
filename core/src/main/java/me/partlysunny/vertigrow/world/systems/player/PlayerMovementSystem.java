@@ -10,9 +10,9 @@ import me.partlysunny.vertigrow.effects.sound.SoundEffectManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
+import me.partlysunny.vertigrow.world.components.player.PlayerAction;
 import me.partlysunny.vertigrow.world.components.player.PlayerControlComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerKeyMap;
-import me.partlysunny.vertigrow.world.components.player.PlayerAction;
 import me.partlysunny.vertigrow.world.components.player.state.PlayerState;
 import me.partlysunny.vertigrow.world.components.player.state.StateComponent;
 

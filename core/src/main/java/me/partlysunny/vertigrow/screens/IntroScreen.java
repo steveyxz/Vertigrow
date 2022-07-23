@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.kotcrab.vis.ui.widget.VisImage;
+import me.partlysunny.vertigrow.Vertigrow;
 import me.partlysunny.vertigrow.effects.sound.SoundEffectManager;
 import me.partlysunny.vertigrow.util.utilities.TextureManager;
 import me.partlysunny.vertigrow.util.utilities.Util;
-import me.partlysunny.vertigrow.Vertigrow;
 
 public class IntroScreen extends BasicGuiScreen {
 

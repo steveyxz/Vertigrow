@@ -4,14 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import de.damios.guacamole.gdx.pool.Vector2Pool;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.util.utilities.LateMover;
 import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.tile.MovementComponent;
-
-import static me.partlysunny.vertigrow.util.utilities.Util.GLOBAL_POOL;
 
 public class BodyMovementSystem extends IteratingSystem {
 
