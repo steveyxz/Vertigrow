@@ -25,6 +25,9 @@ import me.partlysunny.vertigrow.world.components.render.TextureComponent;
 import me.partlysunny.vertigrow.world.components.tile.*;
 import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class LevelBuilder {
 
 
@@ -79,31 +82,33 @@ public class LevelBuilder {
             PooledEngine engine = InGameScreen.world.gameWorld();
             String name = mapObject.getName();
             if (e != null && name != null) {
-                if (name.equals("Checkpoint")) {
+                List<String> types = Arrays.asList(name.split(" "));
+                if (types.contains("Checkpoint")) {
                     int checkpointNumber = mapObject.getProperties().get("CheckpointNumber", Integer.class);
                     CheckpointComponent checkpointComponent = engine.createComponent(CheckpointComponent.class);
                     checkpointComponent.init(new Vector2(initialX, initialY + 16), checkpointNumber);
                     e.add(checkpointComponent);
                 }
 
-                if (name.equals("KillPlayer")) {
+                if (types.contains("KillPlayer")) {
                     KillPlayerOnTouchComponent killPlayerComponent = engine.createComponent(KillPlayerOnTouchComponent.class);
                     e.add(killPlayerComponent);
                 }
 
-                if (name.equals("Bouncy")) {
+                if (types.contains("Bouncy")) {
                     float bouncyStrength = mapObject.getProperties().get("Strength", Float.class);
                     BouncyComponent bouncyComponent = engine.createComponent(BouncyComponent.class);
                     bouncyComponent.init(bouncyStrength);
                     e.add(bouncyComponent);
                 }
 
-                if (name.equals("Moving")) {
+                if (types.contains("Moving")) {
                     float delay = mapObject.getProperties().get("Delay", Float.class);
                     int moveDistance = mapObject.getProperties().get("MoveDistance", Integer.class);
                     MoveType movementType = MoveType.fromString(mapObject.getProperties().get("Movement", String.class));
                     float speed = mapObject.getProperties().get("Speed", Float.class);
                     String textureId = mapObject.getProperties().get("Texture", String.class);
+                    float delayVariation = mapObject.getProperties().get("DelayVariation", 0f, Float.class);
 
                     TextureComponent texture = engine.createComponent(TextureComponent.class);
                     TextureRegion region = new TextureRegion(TextureManager.getTexture(textureId));
@@ -115,7 +120,7 @@ public class LevelBuilder {
                     e.add(transform);
 
                     MovementComponent movement = engine.createComponent(MovementComponent.class);
-                    movement.init(delay, moveDistance, e.getComponent(RigidBodyComponent.class).rigidBody().getPosition(), speed, textureId, movementType, e);
+                    movement.init(delay, delayVariation, moveDistance, e.getComponent(RigidBodyComponent.class).rigidBody().getPosition(), speed, textureId, movementType, e);
                     e.add(movement);
                 }
             }

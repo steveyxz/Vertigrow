@@ -17,8 +17,9 @@ public class MovementComponent implements Component, Pool.Poolable {
     private float delayTimer = 0;
     private Vector2 endPosition = new Vector2();
     private boolean movingToEnd = true;
+    private float delayVariation;
 
-    public void init(float delay, int moveDistance, Vector2 startPosition, float speed, String texture, MoveType type, Entity parent) {
+    public void init(float delay, float delayVariation, int moveDistance, Vector2 startPosition, float speed, String texture, MoveType type, Entity parent) {
         this.delay = delay;
         this.parent = parent;
         this.moveDistance = moveDistance;
@@ -27,6 +28,7 @@ public class MovementComponent implements Component, Pool.Poolable {
         this.speed = speed;
         this.texture = texture;
         this.type = type;
+        this.delayVariation = delayVariation;
         this.movingToEnd = true;
     }
 
@@ -82,6 +84,14 @@ public class MovementComponent implements Component, Pool.Poolable {
         this.delayTimer = delayTimer;
     }
 
+    public float delayVariation() {
+        return delayVariation;
+    }
+
+    public void setDelayVariation(float delayVariation) {
+        this.delayVariation = delayVariation;
+    }
+
     @Override
     public void reset() {
         texture = null;
@@ -89,6 +99,7 @@ public class MovementComponent implements Component, Pool.Poolable {
         startPosition.set(0, 0);
         endPosition.set(0, 0);
         delayTimer = 0;
+        delayVariation = 0;
         moveDistance = 0;
         delay = 0;
         parent = null;

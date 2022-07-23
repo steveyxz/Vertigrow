@@ -50,7 +50,6 @@ public class InGameScreen extends ManagedScreen {
     public static LevelManager levelManager;
     public static PlayerManager playerManager;
     private float accumulator = 0;
-    private static final Vector2 lastPos = new Vector2(50, 300);
 
     public InGameScreen(Vertigrow game) {
         this.game = game;
@@ -60,8 +59,7 @@ public class InGameScreen extends ManagedScreen {
         world = new GameWorld(stage);
         debugRenderer = new Box2DDebugRenderer();
         levelManager = new LevelManager();
-        playerManager = new PlayerManager(ObjectFactory.instance().insertObject(world.gameWorld(), 50, 300, PlayerObject.class));
-        LateMover.tagToMove(Mappers.bodyMapper.get(playerManager.player()).rigidBody(), lastPos);
+        playerManager = new PlayerManager(ObjectFactory.instance().insertObject(world.gameWorld(), 3270, 400, PlayerObject.class));
     }
 
     @Override
@@ -75,11 +73,6 @@ public class InGameScreen extends ManagedScreen {
                 if (game.getScreenManager().getCurrentScreen().equals(s)) {
                     if (keycode == Input.Keys.ESCAPE) {
                         game.getScreenManager().pushScreen("paused", null);
-                    }
-                    if (keycode == Input.Keys.R) {
-                        lastPos.set(Mappers.transformMapper.get(playerManager.player()).position.x, Mappers.transformMapper.get(playerManager.player()).position.y);
-                        delete();
-                        game.reload();
                     }
                 }
                 return false;

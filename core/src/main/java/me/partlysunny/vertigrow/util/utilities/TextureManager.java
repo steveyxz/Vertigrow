@@ -32,6 +32,8 @@ public class TextureManager {
         doPngTexture("playerDeath");
         //Moving platforms
         doPngTexture("horizontal");
+        doPngTexture("vertical");
+        doPngTexture("killerWallVertical");
     }
 
     private static void doPngTexture(String value) {

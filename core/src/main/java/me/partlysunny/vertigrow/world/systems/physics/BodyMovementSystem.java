@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.damios.guacamole.gdx.pool.Vector2Pool;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.util.utilities.LateMover;
+import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.tile.MovementComponent;
 
@@ -48,7 +49,7 @@ public class BodyMovementSystem extends IteratingSystem {
         //If the current distance is further to the start, it means the platform needs to move back to start position
         if (currentMovementDist > realMovementDist) {
             movement.setMovingToEnd(false);
-            movement.setDelayTimer(movement.delay());
+            movement.setDelayTimer(movement.delay() + Util.getRandomBetween(-movement.delayVariation(), movement.delayVariation()));
             LateMover.tagToMove(body.rigidBody(), movement.endPosition());
         } else {
             //This means now we have to check if the platform is still in a good position or if it's going backwards too far
@@ -82,7 +83,7 @@ public class BodyMovementSystem extends IteratingSystem {
                 LateMover.tagToMove(body.rigidBody(), v.add(body.rigidBody().getPosition()));
             } else {
                 movement.setMovingToEnd(true);
-                movement.setDelayTimer(movement.delay());
+                movement.setDelayTimer(movement.delay() + Util.getRandomBetween(-movement.delayVariation(), movement.delayVariation()));
                 LateMover.tagToMove(body.rigidBody(), movement.startPosition());
             }
 
