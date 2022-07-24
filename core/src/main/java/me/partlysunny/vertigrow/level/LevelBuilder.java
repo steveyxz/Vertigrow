@@ -17,6 +17,9 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import me.partlysunny.vertigrow.screens.InGameScreen;
+import me.partlysunny.vertigrow.util.constants.Mappers;
+import me.partlysunny.vertigrow.util.constants.Screens;
+import me.partlysunny.vertigrow.util.utilities.LateMover;
 import me.partlysunny.vertigrow.util.utilities.TextureManager;
 import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
@@ -27,6 +30,8 @@ import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static me.partlysunny.vertigrow.screens.InGameScreen.playerManager;
 
 public class LevelBuilder {
 
@@ -42,9 +47,19 @@ public class LevelBuilder {
         //Make all flags have animations
         Util.makeTilesAnimated("Environment", "Level", 15, map, 0.3f, 15, 23, 31, 39);
         Util.makeTilesAnimated("Environment", "Level", 14, map, 0.3f, 14, 22, 30);
+        Util.makeTilesAnimated("Environment", "Level", 32, map, 0.3f, 32, 33, 34);
+        Util.makeTilesAnimated("Environment", "Level", 40, map, 0.3f, 40, 41, 42);
         //Go through collisions, generate collision maps
         for (int i = 0; i < collisions.getCount(); i++) {
             MapObject mapObject = collisions.get(i);
+            if (mapObject.getName() != null && mapObject.getName().equals("PlayerSpawn")) {
+                RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+                Rectangle rectangle = rectangleObject.getRectangle();
+                Vector2 newSpawn = new Vector2(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f);
+                playerManager.setSpawnPoint(newSpawn);
+                LateMover.tagToMove(Mappers.bodyMapper.get(playerManager.player()).rigidBody(), newSpawn);
+                continue;
+            }
             Entity e = null;
             float initialX = 0;
             float initialY = 0;
@@ -122,6 +137,13 @@ public class LevelBuilder {
                     MovementComponent movement = engine.createComponent(MovementComponent.class);
                     movement.init(delay, delayVariation, moveDistance, e.getComponent(RigidBodyComponent.class).rigidBody().getPosition(), speed, textureId, movementType, e);
                     e.add(movement);
+                }
+
+                if (types.contains("Portal")) {
+                    String destination = mapObject.getProperties().get("WhereTo", String.class);
+                    PortalComponent portal = engine.createComponent(PortalComponent.class);
+                    portal.init(destination, levelManager.screen());
+                    e.add(portal);
                 }
             }
             engine.addEntity(e);

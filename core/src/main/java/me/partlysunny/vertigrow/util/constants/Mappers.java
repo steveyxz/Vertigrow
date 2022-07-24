@@ -11,10 +11,7 @@ import me.partlysunny.vertigrow.world.components.render.ActorComponent;
 import me.partlysunny.vertigrow.world.components.render.AnimationComponent;
 import me.partlysunny.vertigrow.world.components.render.TextureComponent;
 import me.partlysunny.vertigrow.world.components.render.TintComponent;
-import me.partlysunny.vertigrow.world.components.tile.BouncyComponent;
-import me.partlysunny.vertigrow.world.components.tile.CheckpointComponent;
-import me.partlysunny.vertigrow.world.components.tile.KillPlayerOnTouchComponent;
-import me.partlysunny.vertigrow.world.components.tile.MovementComponent;
+import me.partlysunny.vertigrow.world.components.tile.*;
 
 public final class Mappers {
 
@@ -32,4 +29,5 @@ public final class Mappers {
     public static final ComponentMapper<CheckpointComponent> checkpointMapper = ComponentMapper.getFor(CheckpointComponent.class);
     public static final ComponentMapper<BouncyComponent> bouncyMapper = ComponentMapper.getFor(BouncyComponent.class);
     public static final ComponentMapper<MovementComponent> movementMapper = ComponentMapper.getFor(MovementComponent.class);
+    public static final ComponentMapper<PortalComponent> portalMapper = ComponentMapper.getFor(PortalComponent.class);
 }

@@ -23,9 +23,11 @@ import me.partlysunny.vertigrow.effects.visual.VisualEffectManager;
 import me.partlysunny.vertigrow.level.LevelManager;
 import me.partlysunny.vertigrow.player.PlayerManager;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
+import me.partlysunny.vertigrow.util.utilities.LateActionPerformer;
 import me.partlysunny.vertigrow.util.utilities.LateMover;
 import me.partlysunny.vertigrow.util.utilities.LateRemover;
 import me.partlysunny.vertigrow.world.GameWorld;
+import me.partlysunny.vertigrow.world.components.player.PlayerControlComponent;
 import me.partlysunny.vertigrow.world.objects.ObjectFactory;
 import me.partlysunny.vertigrow.world.objects.type.PlayerObject;
 
@@ -55,8 +57,8 @@ public class InGameScreen extends ManagedScreen {
         guiManager.init(guiStage);
         world = new GameWorld(stage);
         debugRenderer = new Box2DDebugRenderer();
-        levelManager = new LevelManager();
-        playerManager = new PlayerManager(ObjectFactory.instance().insertObject(world.gameWorld(), 3270, 400, PlayerObject.class));
+        playerManager = new PlayerManager(ObjectFactory.instance().insertObject(world.gameWorld(), 4400, 400, PlayerObject.class));
+        levelManager = new LevelManager("level1", this);
     }
 
     @Override
@@ -114,6 +116,7 @@ public class InGameScreen extends ManagedScreen {
         //Process late removers / movers (so that they don't collide with the physics step)
         LateRemover.process(world);
         LateMover.process();
+        LateActionPerformer.process();
 
         //Rendering
         ParticleEffectManager.render(game.batch(), delta);
@@ -151,10 +154,9 @@ public class InGameScreen extends ManagedScreen {
         stage.dispose();
     }
 
-    public void delete() {
-        for (Entity e : world.gameWorld().getEntitiesFor(Family.all().get())) {
+    public void deleteLevel() {
+        for (Entity e : world.gameWorld().getEntitiesFor(Family.all().exclude(PlayerControlComponent.class).get())) {
             LateRemover.tagToRemove(e);
         }
-        LateRemover.process(world);
     }
 }

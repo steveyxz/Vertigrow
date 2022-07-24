@@ -193,7 +193,7 @@ public class Util {
             return null;
         }
         Entity other = conversion.a();
-        if (!Mappers.checkpointMapper.has(other) && !Mappers.killPlayerMapper.has(other) && !Mappers.bouncyMapper.has(other)) {
+        if (!Mappers.checkpointMapper.has(other) && !Mappers.killPlayerMapper.has(other) && !Mappers.bouncyMapper.has(other) && !Mappers.portalMapper.has(other)) {
             return null;
         }
         return conversion;

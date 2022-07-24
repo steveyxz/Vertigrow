@@ -15,10 +15,14 @@ public class LevelManager {
     private final List<Entity> levelObjects = new ArrayList<>();
     private final LevelBuilder builder = new LevelBuilder(this);
 
-    private final TiledMap level = new TmxMapLoader().load("assets/levels/level.tmx");
-    private final TiledMapRenderer renderer = new OrthogonalTiledMapRenderer(level);
+    private final TiledMap level;
+    private final TiledMapRenderer renderer;
+    private final InGameScreen screen;
 
-    public LevelManager() {
+    public LevelManager(String levelName, InGameScreen screen) {
+        this.level = new TmxMapLoader().load("assets/levels/" + levelName + ".tmx");
+        this.screen = screen;
+        this.renderer = new OrthogonalTiledMapRenderer(level);
         builder.build(level);
     }
 
@@ -27,5 +31,7 @@ public class LevelManager {
         renderer.render();
     }
 
-
+    public InGameScreen screen() {
+        return screen;
+    }
 }

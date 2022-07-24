@@ -34,6 +34,7 @@ public class TextureManager {
         doPngTexture("horizontal");
         doPngTexture("vertical");
         doPngTexture("killerWallVertical");
+        doPngTexture("horizontalBouncy");
     }
 
     private static void doPngTexture(String value) {

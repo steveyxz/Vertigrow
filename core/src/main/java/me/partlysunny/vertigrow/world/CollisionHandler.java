@@ -8,9 +8,11 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import me.partlysunny.vertigrow.effects.particle.ParticleEffectManager;
 import me.partlysunny.vertigrow.effects.sound.SoundEffectManager;
+import me.partlysunny.vertigrow.level.LevelManager;
 import me.partlysunny.vertigrow.screens.InGameScreen;
 import me.partlysunny.vertigrow.util.classes.Pair;
 import me.partlysunny.vertigrow.util.constants.Mappers;
+import me.partlysunny.vertigrow.util.utilities.LateActionPerformer;
 import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.player.state.PlayerState;
@@ -46,6 +48,13 @@ public class CollisionHandler implements ContactListener {
                 float strength = Mappers.bouncyMapper.get(other).strength();
                 Mappers.stateMapper.get(player).setState(PlayerState.PASSIVE.value());
                 playerBody.rigidBody().setLinearVelocity(playerBody.rigidBody().getLinearVelocity().x, -playerBody.rigidBody().getLinearVelocity().y * strength);
+            }
+
+            if (Mappers.portalMapper.has(other)) {
+                String destination = Mappers.portalMapper.get(other).destination();
+                InGameScreen screen = Mappers.portalMapper.get(other).screen();
+                screen.deleteLevel();
+                LateActionPerformer.addRun(() -> InGameScreen.levelManager = new LevelManager(destination, screen));
             }
         }
     }
