@@ -7,10 +7,7 @@ import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerCameraFollowComponent;
 import me.partlysunny.vertigrow.world.components.player.PlayerControlComponent;
 import me.partlysunny.vertigrow.world.components.player.state.StateComponent;
-import me.partlysunny.vertigrow.world.components.render.ActorComponent;
-import me.partlysunny.vertigrow.world.components.render.AnimationComponent;
-import me.partlysunny.vertigrow.world.components.render.TextureComponent;
-import me.partlysunny.vertigrow.world.components.render.TintComponent;
+import me.partlysunny.vertigrow.world.components.render.*;
 import me.partlysunny.vertigrow.world.components.tile.*;
 
 public final class Mappers {
@@ -30,4 +27,6 @@ public final class Mappers {
     public static final ComponentMapper<BouncyComponent> bouncyMapper = ComponentMapper.getFor(BouncyComponent.class);
     public static final ComponentMapper<MovementComponent> movementMapper = ComponentMapper.getFor(MovementComponent.class);
     public static final ComponentMapper<PortalComponent> portalMapper = ComponentMapper.getFor(PortalComponent.class);
+    public static final ComponentMapper<TextComponent> textMapper = ComponentMapper.getFor(TextComponent.class);
+    public static final ComponentMapper<ZComponent> zMapper = ComponentMapper.getFor(ZComponent.class);
 }

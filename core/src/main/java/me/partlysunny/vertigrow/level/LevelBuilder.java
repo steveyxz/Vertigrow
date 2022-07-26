@@ -24,7 +24,10 @@ import me.partlysunny.vertigrow.util.utilities.TextureManager;
 import me.partlysunny.vertigrow.util.utilities.Util;
 import me.partlysunny.vertigrow.world.components.collision.RigidBodyComponent;
 import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
+import me.partlysunny.vertigrow.world.components.render.TextComponent;
 import me.partlysunny.vertigrow.world.components.render.TextureComponent;
+import me.partlysunny.vertigrow.world.components.render.TintComponent;
+import me.partlysunny.vertigrow.world.components.render.ZComponent;
 import me.partlysunny.vertigrow.world.components.tile.*;
 import me.partlysunny.vertigrow.world.objects.type.TileMapCollisionFactory;
 
@@ -43,6 +46,7 @@ public class LevelBuilder {
     }
 
     public void build(TiledMap map) {
+        PooledEngine engine = InGameScreen.world.gameWorld();
         MapObjects collisions = map.getLayers().get("Collisions").getObjects();
         //Make all flags have animations
         Util.makeTilesAnimated("Environment", "Level", 15, map, 0.3f, 15, 23, 31, 39);
@@ -52,13 +56,65 @@ public class LevelBuilder {
         //Go through collisions, generate collision maps
         for (int i = 0; i < collisions.getCount(); i++) {
             MapObject mapObject = collisions.get(i);
-            if (mapObject.getName() != null && mapObject.getName().equals("PlayerSpawn")) {
-                RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
-                Rectangle rectangle = rectangleObject.getRectangle();
-                Vector2 newSpawn = new Vector2(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f);
-                playerManager.setSpawnPoint(newSpawn);
-                LateMover.tagToMove(Mappers.bodyMapper.get(playerManager.player()).rigidBody(), newSpawn);
-                continue;
+            if (mapObject.getName() != null) {
+                if (mapObject.getName().equals("PlayerSpawn")) {
+                    RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+                    Rectangle rectangle = rectangleObject.getRectangle();
+                    Vector2 newSpawn = new Vector2(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f);
+                    playerManager.setSpawnPoint(newSpawn);
+                    LateMover.tagToMove(Mappers.bodyMapper.get(playerManager.player()).rigidBody(), newSpawn);
+                    continue;
+                }
+                if (mapObject.getName().equals("Image")) {
+                    Entity e = engine.createEntity();
+                    RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+                    Rectangle rectangle = rectangleObject.getRectangle();
+
+                    String textureId = mapObject.getProperties().get("Texture", String.class);
+                    TextureComponent texture = engine.createComponent(TextureComponent.class);
+                    texture.init(new TextureRegion(TextureManager.getTexture(textureId)));
+                    e.add(texture);
+
+                    TransformComponent transform = engine.createComponent(TransformComponent.class);
+                    transform.position.set(rectangle.x + rectangle.getWidth() / 2f, rectangle.y + rectangle.getHeight() / 2f, 0);
+                    transform.init(rectangle.getWidth(), rectangle.getHeight());
+                    e.add(transform);
+
+                    ZComponent z = engine.createComponent(ZComponent.class);
+                    z.init(-1);
+                    e.add(z);
+
+                    engine.addEntity(e);
+                    continue;
+
+                }
+                if (mapObject.getName().equals("Text")) {
+                    Entity e = engine.createEntity();
+                    RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+                    Rectangle rectangle = rectangleObject.getRectangle();
+
+                    String content = mapObject.getProperties().get("Content", String.class);
+                    float size = mapObject.getProperties().get("Size", Float.class);
+                    TextComponent text = engine.createComponent(TextComponent.class);
+                    text.init(content, size);
+                    e.add(text);
+
+                    TransformComponent transform = engine.createComponent(TransformComponent.class);
+                    transform.position.set(rectangle.x, rectangle.y + rectangle.getHeight(), 0);
+                    transform.init(rectangle.getWidth(), rectangle.getHeight());
+                    e.add(transform);
+
+                    ZComponent z = engine.createComponent(ZComponent.class);
+                    z.init(-1);
+                    e.add(z);
+
+                    TintComponent tint = engine.createComponent(TintComponent.class);
+                    tint.setTint(0.2f, 0.2f, 0.2f, 1);
+                    e.add(tint);
+
+                    engine.addEntity(e);
+                    continue;
+                }
             }
             Entity e = null;
             float initialX = 0;
@@ -94,7 +150,6 @@ public class LevelBuilder {
                 initialY = polygon.getY();
                 e = TileMapCollisionFactory.create(initialX, initialY, def);
             }
-            PooledEngine engine = InGameScreen.world.gameWorld();
             String name = mapObject.getName();
             if (e != null && name != null) {
                 List<String> types = Arrays.asList(name.split(" "));

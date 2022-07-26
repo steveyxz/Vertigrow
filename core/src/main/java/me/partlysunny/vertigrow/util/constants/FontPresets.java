@@ -12,6 +12,8 @@ public class FontPresets {
 
     private static final Map<String, Map<Float, BitmapFont>> sizeMap = new HashMap<>();
 
+    public static final String GAME_FONT = "gamefont.ttf";
+
     private static BitmapFont loadFont(String fontPath, int size) {
         //Generate a font object for font
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

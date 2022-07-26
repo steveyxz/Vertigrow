@@ -35,6 +35,9 @@ public class TextureManager {
         doPngTexture("vertical");
         doPngTexture("killerWallVertical");
         doPngTexture("horizontalBouncy");
+        //Key displays
+        doPngTexture("adKeys");
+        doPngTexture("spaceKey");
     }
 
     private static void doPngTexture(String value) {

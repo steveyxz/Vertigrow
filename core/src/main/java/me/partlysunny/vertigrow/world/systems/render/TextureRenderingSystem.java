@@ -6,13 +6,17 @@ import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import me.partlysunny.vertigrow.util.constants.FontPresets;
 import me.partlysunny.vertigrow.util.constants.GameInfo;
 import me.partlysunny.vertigrow.util.constants.Mappers;
 import me.partlysunny.vertigrow.world.components.collision.TransformComponent;
+import me.partlysunny.vertigrow.world.components.render.TextComponent;
 import me.partlysunny.vertigrow.world.components.render.TextureComponent;
 import me.partlysunny.vertigrow.world.components.render.TintComponent;
 
@@ -20,7 +24,7 @@ import java.util.Comparator;
 
 public class TextureRenderingSystem extends SortedIteratingSystem {
 
-    public static final float PPM = 4f;
+    public static final float PPM = 4.5f;
 
     public static final float FRUSTUM_WIDTH = GameInfo.SCREEN_WIDTH / PPM;
     public static final float FRUSTUM_HEIGHT = GameInfo.SCREEN_HEIGHT / PPM;
@@ -35,7 +39,7 @@ public class TextureRenderingSystem extends SortedIteratingSystem {
 
     public TextureRenderingSystem(Batch batch, Camera camera) {
         // gets all entities with a TransformComponent and TextureComponent
-        super(Family.all(TextureComponent.class, TransformComponent.class).get(), new ZComparator());
+        super(Family.all(TransformComponent.class).one(TextureComponent.class, TextComponent.class).get(), new ZComparator());
 
         // create the array for sorting entities
         renderQueue = new Array<>();
@@ -74,7 +78,6 @@ public class TextureRenderingSystem extends SortedIteratingSystem {
 
         // loop through each entity in our render queue
         for (Entity entity : renderQueue) {
-            TextureComponent tex = Mappers.textureMapper.get(entity);
             TransformComponent transform = Mappers.transformMapper.get(entity);
             Vector3 tint = null;
             float opacity = 0;
@@ -83,34 +86,48 @@ public class TextureRenderingSystem extends SortedIteratingSystem {
                 tint = tintComponent.tint();
                 opacity = tintComponent.alpha();
             }
-
-            if (tex.texture() == null || tex.isHidden()) {
-                continue;
-            }
+            TextureComponent texture = Mappers.textureMapper.get(entity);
+            TextComponent text = Mappers.textMapper.get(entity);
 
             if (tint != null) {
                 batch.setColor(new Color(tint.x, tint.y, tint.z, opacity));
             }
 
+            if (texture != null) {
+                if (texture.texture() == null || texture.isHidden()) {
+                    continue;
+                }
 
-            float width = tex.texture().getRegionWidth();
-            float height = tex.texture().getRegionHeight();
+                float width = texture.texture().getRegionWidth();
+                float height = texture.texture().getRegionHeight();
 
-            float originX = width / 2f;
-            float originY = height / 2f;
+                float originX = width / 2f;
+                float originY = height / 2f;
 
-            float x = transform.position.x;
-            float y = transform.position.y;
-            float x1 = x - originX;
-            float y1 = y - originY;
+                float x = transform.position.x;
+                float y = transform.position.y;
+                float x1 = x - originX;
+                float y1 = y - originY;
 
-            float rotation = transform.rotation;
-            batch.draw(tex.texture(),
-                    x1, y1,
-                    originX, originY,
-                    width, height,
-                    transform.scale.x / tex.texture().getRegionWidth(), transform.scale.y / tex.texture().getRegionHeight(),
-                    rotation * MathUtils.radiansToDegrees);
+                float rotation = transform.rotation;
+
+                batch.draw(texture.texture(),
+                        x1, y1,
+                        originX, originY,
+                        width, height,
+                        transform.scale.x / texture.texture().getRegionWidth(), transform.scale.y / texture.texture().getRegionHeight(),
+                        rotation * MathUtils.radiansToDegrees);
+            } else if (text != null) {
+                float size = text.size();
+                String content = text.text();
+
+                BitmapFont fontWithSize = FontPresets.getFontWithSize(FontPresets.GAME_FONT, size);
+                if (tint != null) {
+                    fontWithSize.setColor(new Color(tint.x, tint.y, tint.z, opacity));
+                }
+                fontWithSize.draw(batch, content, transform.position.x, transform.position.y);
+                fontWithSize.setColor(Color.BLACK);
+            }
 
             batch.setColor(Color.WHITE);
         }

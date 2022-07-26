@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="394" height="52" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="272">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="394" height="52" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="281">
  <tileset firstgid="1" source="Environment.tsx"/>
  <layer id="1" name="Level" width="394" height="52" offsetx="11" offsety="-22">
   <data encoding="csv">
@@ -437,13 +437,52 @@
   <object id="263" x="6052" y="425" width="101" height="17"/>
   <object id="264" x="6027" y="490" width="17" height="320"/>
   <object id="265" name="KillPlayer" x="5441" y="591" width="586" height="16"/>
-  <object id="268" x="32" y="164" width="6" height="6"/>
+  <object id="268" name="PlayerSpawn" x="35" y="161" width="6" height="6"/>
   <object id="270" name="Portal" x="6131" y="442">
    <properties>
     <property name="WhereTo" value="level2"/>
    </properties>
    <polygon points="0,0 -7,11 -7,21 -1,31 2,31 7,21 7,11"/>
   </object>
-  <object id="271" name="PlayerSpawn" x="6068" y="452" width="12" height="13"/>
+  <object id="273" name="Image" x="33" y="169" width="32" height="16">
+   <properties>
+    <property name="Texture" value="adKeys"/>
+   </properties>
+  </object>
+  <object id="274" name="Text" x="69" y="173" width="42" height="14">
+   <properties>
+    <property name="Content" value="To Move!"/>
+    <property name="Size" type="float" value="0.4"/>
+   </properties>
+  </object>
+  <object id="275" name="Image" x="187" y="185" width="32" height="16">
+   <properties>
+    <property name="Texture" value="spaceKey"/>
+   </properties>
+  </object>
+  <object id="276" name="Text" x="223" y="189" width="42" height="14">
+   <properties>
+    <property name="Content" value="To Jump"/>
+    <property name="Size" type="float" value="0.4"/>
+   </properties>
+  </object>
+  <object id="278" name="Text" x="367" y="205" width="42" height="14">
+   <properties>
+    <property name="Content" value="Checkpoint!"/>
+    <property name="Size" type="float" value="0.4"/>
+   </properties>
+  </object>
+  <object id="279" name="Text" x="699" y="141" width="42" height="14">
+   <properties>
+    <property name="Content" value="Concrete Kills..."/>
+    <property name="Size" type="float" value="0.25"/>
+   </properties>
+  </object>
+  <object id="280" name="Text" x="821" y="209" width="42" height="14">
+   <properties>
+    <property name="Content" value="You can jump again if you fall!"/>
+    <property name="Size" type="float" value="0.2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
